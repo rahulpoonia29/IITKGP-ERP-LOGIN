@@ -39,17 +39,19 @@ export class SessionCore {
         password: string;
         getSecurityAnswer: (question: string) => Promise<string>;
         getOTP: (otpRequestedAt: string) => Promise<string>;
-    }): Promise<string> {
+    }): Promise<{
+        ssoToken: string;
+        sessionToken: string;
+        cookieJar: CookieJar;
+    }> {
         try {
             const sessionToken = await this.getSessionToken();
-
             const securityQuestion = await this.getSecurityQuestion(
                 params.rollNo
             );
             const securityAnswer = await params.getSecurityAnswer(
                 securityQuestion
             );
-
             await this.requestOTP({
                 rollNo: params.rollNo,
                 password: params.password,
@@ -58,7 +60,6 @@ export class SessionCore {
             });
             const otpRequestedAt = new Date().toISOString();
             const OTP = await params.getOTP(otpRequestedAt);
-
             const ssoToken = await this.signIn({
                 rollNo: params.rollNo,
                 password: params.password,
@@ -66,7 +67,11 @@ export class SessionCore {
                 otp: OTP,
                 sessionToken,
             });
-            return ssoToken;
+            return {
+                ssoToken,
+                sessionToken,
+                cookieJar: this.cookieJar,
+            };
         } catch (error) {
             throw new Error(`Login failed: ${(error as Error).message}`);
         }

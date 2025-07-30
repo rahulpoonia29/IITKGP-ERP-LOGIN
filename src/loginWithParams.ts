@@ -1,3 +1,4 @@
+import { CookieJar } from "tough-cookie";
 import { SessionCore } from "./core";
 
 /**
@@ -13,7 +14,7 @@ export async function loginWithCredentials(
     password: string,
     securityAnswers: { [question: string]: string },
     getOTP: (otpRequestedAt: string) => Promise<string>
-): Promise<string> {
+): Promise<{ ssoToken: string; sessionToken: string; cookieJar: CookieJar }> {
     const session = new SessionCore();
     return session.login({
         rollNo,

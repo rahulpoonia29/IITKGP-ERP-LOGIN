@@ -1,10 +1,15 @@
 import { input } from "@inquirer/prompts";
 import { SessionCore } from "./core";
+import { CookieJar } from "tough-cookie";
 
 /**
  * Login to IIT KGP ERP using CLI prompts for all details, with user feedback.
  */
-export async function loginWithCLI(): Promise<string> {
+export async function loginWithCLI(): Promise<{
+    ssoToken: string;
+    sessionToken: string;
+    cookieJar: CookieJar;
+}> {
     const session = new SessionCore();
     const rollNo = await input({ message: "Roll Number:", required: true });
     const password = await input({ message: "Password:", required: true });
@@ -15,7 +20,10 @@ export async function loginWithCLI(): Promise<string> {
             password,
             getSecurityAnswer: async (question) => {
                 console.log(`Security Question: ${question}`);
-                return await input({ message: "Security Answer:", required: true });
+                return await input({
+                    message: "Security Answer:",
+                    required: true,
+                });
             },
             getOTP: async (otpRequestedAt) => {
                 console.log(`OTP requested at: ${otpRequestedAt}`);

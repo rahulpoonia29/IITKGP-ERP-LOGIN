@@ -1,0 +1,40 @@
+{
+    "name": "iitkgp-erp-login",
+    "version": "0.1.0",
+    "description": "A package to log in to IIT KGP ERP with CLI and programmatic options.",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "exports": {
+        ".": {
+            "import": "./dist/index.js",
+            "require": "./dist/index.js"
+        }
+    },
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "dev": "tsx src/index.ts",
+        "build": "tsc",
+        "prepare": "npm run build"
+    },
+    "keywords": [
+        "iitkgp",
+        "erp",
+        "login",
+        "cli",
+        "authentication"
+    ],
+    "author": "Rahul Poonia",
+    "license": "MIT",
+    "dependencies": {
+        "@inquirer/prompts": "^7.8.0",
+        "axios": "^1.0.0",
+        "ky": "^1.8.2",
+        "tough-cookie": "^5.1.2"
+    },
+    "devDependencies": {
+        "tsx": "^4.20.3",
+        "typescript": "^5.0.0"
+    }
+}

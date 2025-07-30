@@ -1,0 +1,40 @@
+# Node modules
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Compiled binary addons (https://nodejs.org/api/addons.html)
+build/Release
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# dotenv environment variables file
+.env
+.env.test
+.env.production
+.env.development
+.env.local
+
+# VS Code settings
+.vscode/
+.history/
+
+# Mac system files
+.DS_Store
+
+# Windows system files
+Thumbs.db
+
+# dist
+dist
+
+# pnpm build scripts
+pnpm-workspace.yaml

@@ -2,6 +2,10 @@
 
 Easily log in to IIT Kharagpur ERP from Node.js, with both CLI and programmatic APIs. Handles OTP, security questions, and session management.
 
+## Acknowledgements
+
+This package was inspired by the [metakgp/iitkgp-erp-login-pypi](https://github.com/metakgp/iitkgp-erp-login-pypi) Python package. Thanks to the metakgp team for their work. <br> If you need to log in to ERP using Python, use [pypi.org/project/iitkgp-erp-login](https://pypi.org/project/iitkgp-erp-login/).
+
 ## Installation
 
 ```sh

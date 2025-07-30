@@ -2,7 +2,6 @@ import ky from "ky";
 import { CookieJar } from "tough-cookie";
 import { ENDPOINTS } from "./endpoints";
 import { ERPResponseMessages } from "./erpResponses";
-import { getOTPCallback, SecurityQuestions } from "./types";
 
 export class SessionCore {
     private client: typeof ky;
@@ -38,8 +37,8 @@ export class SessionCore {
     public async login(params: {
         rollNo: string;
         password: string;
-        securityQuestion: SecurityQuestions;
-        getOTP: getOTPCallback;
+        getSecurityAnswer: (question: string) => Promise<string>;
+        getOTP: (otpRequestedAt: string) => Promise<string>;
     }): Promise<string> {
         try {
             const sessionToken = await this.getSessionToken();
@@ -47,7 +46,9 @@ export class SessionCore {
             const securityQuestion = await this.getSecurityQuestion(
                 params.rollNo
             );
-            const securityAnswer = params.securityQuestion[securityQuestion];
+            const securityAnswer = await params.getSecurityAnswer(
+                securityQuestion
+            );
 
             await this.requestOTP({
                 rollNo: params.rollNo,
@@ -55,8 +56,9 @@ export class SessionCore {
                 securityAnswer,
                 sessionToken,
             });
+            const otpRequestedAt = new Date().toISOString();
+            const OTP = await params.getOTP(otpRequestedAt);
 
-            const OTP = await params.getOTP();
             const ssoToken = await this.signIn({
                 rollNo: params.rollNo,
                 password: params.password,
